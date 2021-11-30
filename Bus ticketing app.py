@@ -10,7 +10,11 @@ lwaktu = ['06.00','13.00','18.30']
 running = True
 usedKolom = []
 usedBaris = []
+
+#Deklarasi Matriks untuk visualisasi tempat duduk
 seat = [["R" for j in range(0,8)] for i in range(0,7)]
+
+#Deklarasi dictionary untuk kolom kursi
 seatKolom= {
     'A' : 1,
     'B' : 2,
@@ -31,13 +35,13 @@ def data_pemesan(): #untuk meminta detail pemesan dan traveler
       print(f'\n===Detail Pemesan===')
 
       nama = input("Nama Lengkap : ")
-      while nama.isnumeric() == True :
+      while nama.isnumeric() == True : #Error handling
         print("Nama hanya mengandung alphabet")
         nama= input("Nama Lengkap : ")
       lnama.append(nama)
 
       nohp = input("No HP : ")
-      while nohp.isnumeric() == False :
+      while nohp.isnumeric() == False : #Error handling
         print("No HP hanya mengandung angka")
         nohp= input("No HP : ")
       lnohp.append(nohp)
@@ -50,13 +54,13 @@ def data_pemesan(): #untuk meminta detail pemesan dan traveler
       print(f'\n===Detail Traveler {traveler_no}===')
       nama= input("Nama Lengkap : ")
 
-      while nama.isnumeric() == True :
+      while nama.isnumeric() == True : #Error handling
         print("Nama hanya mengandung alphabet")
         nama= input("Nama Lengkap : ")
       lnama.append(nama)
 
       nohp= input("No HP : ")
-      while nohp.isnumeric() == False :
+      while nohp.isnumeric() == False : #Error handling
         print("No HP hanya mengandung angka")
         nohp= input("No HP : ")
       lnohp.append(nohp)
@@ -177,7 +181,7 @@ def billing(kursi) : #untuk print ticket
 def payment() : #Untuk memilih metode pembayaran dan menyelesaikan pembayaran
   print("Metode Pembayaran :\n1.GO-PAY\n2.Transfer Bank Online")
   payMethod = input("Pilih Metode Pembayaran :" )
-  while payMethod != '1' and payMethod != '2' :
+  while payMethod != '1' and payMethod != '2' : #Error handling
     print("Metode pembayaran tidak tersedia, pilih 1 (GO-PAY) atau 2 (Transfer Bank Online) ")
     payMethod = input("Pilih Metode Pembayaran :" )
   if payMethod == '1':
@@ -190,12 +194,12 @@ def payment() : #Untuk memilih metode pembayaran dan menyelesaikan pembayaran
     elif transfer.lower() == 'n' :
       print("\nPayment cancelled!")
       print("\nOrder Cancelled!")
-    while transfer != 'y' and transfer !='n' :
+    while transfer != 'y' and transfer !='n' : #Error handling
       print("Transfer GO-PAY dari nomor", lnohp[0], ": y/n")
       transfer = input()
   elif payMethod == '2' :
     norek = input("Masukkan Nomor Rekening Anda :")
-    while norek.isnumeric() == False :
+    while norek.isnumeric() == False : #Error handling
       print("Nomor rekening hanya mengandung angka")
       norek = input("Masukkan Nomor Rekening Anda :")
     print("Transfer uang dari rekening", norek, ": y/n")
@@ -207,7 +211,7 @@ def payment() : #Untuk memilih metode pembayaran dan menyelesaikan pembayaran
     elif transfer.lower() == 'n' :
       print("Payment cancelled!")
       print("\nOrder cancelled!")
-    while transfer != 'y' and transfer !='n' :
+    while transfer != 'y' and transfer !='n' : #Error handling
       print("Transfer uang dari rekening", norek, ": y/n")
       transfer = input()
     
@@ -233,21 +237,23 @@ def ticket() : #Untuk print ticket
     print("| (Kolom,Baris) : (", usedKolom[ticket],",", usedBaris[ticket],")  ") #ini untuk nunjukkin koordinat kursi
     print("---------------------------------------")
 
-def manifest() : # Untuk memasukkan data ke dalam file Manifest.csv
+def manifest() : # Fungsi untuk memasukkan data manifest ke dalam file manifest_1.csv
     with open('manifest_1.csv','a', newline ='') as file :
         writer = csv.writer(file, delimiter=',')
         #Format CSV
-        #Nama, Destinasi, Waktu, Kolom, Baris
+        #Nama, Destinasi, Waktu, Tempat duduk
         for i in range(kursi) :
+            #Variabel untuk menyatukan kolom dan baris
             seat_data = usedKolom[i] + usedBaris[i]
+            #Perintah untuk menulis row baru di file manifest_1.csv
             writer.writerow([lnama[i], ltujuan[tujuan-1], lwaktu[waktu-1], seat_data])
 
 
-
-while running == True : #main loop
+#Main Loop
+while running == True : 
   intro()
   tujuan = int(input("Pilih Destinasi Tujuan Anda (1, 2, 3 atau 4): "))
-  while tujuan != 1 and tujuan != 2 and tujuan != 3 and tujuan != 4 :
+  while tujuan != 1 and tujuan != 2 and tujuan != 3 and tujuan != 4 : #Error handling
     print("Destinasi tidak tersedia, pilih 1, 2, 3 atau 4")
     tujuan = int(input("Pilih Destinasi Tujuan Anda (1 atau 2): "))
 
